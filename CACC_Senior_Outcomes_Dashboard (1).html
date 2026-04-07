@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CACC Senior Outcomes Dashboard | California Cadet Corps</title>
+<meta name="description" content="California Cadet Corps Senior Survey Data — 2024 & 2025. College acceptance, military enlistment, leadership development, and post-graduation outcomes for CACC graduating seniors.">
+<meta name="keywords" content="California Cadet Corps, CACC, senior outcomes, cadet data, leadership program, military enlistment, college acceptance, youth leadership California">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  :root {
+    --navy: #01264F;
+    --navy-mid: #0B3D73;
+    --navy-light: #1A5498;
+    --gold: #F7CB02;
+    --gold-dark: #C9A400;
+    --gold-bg: #FFFDE6;
+    --white: #ffffff;
+    --surface: #F2F1ED;
+    --card-bg: #ffffff;
+    --border: rgba(1,38,79,0.1);
+    --text-sec: #6B7280;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--surface);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+    color: var(--navy);
+  }
+
+  .outer {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── SEO HERO ── */
+  .seo-hero {
+    background: var(--navy);
+    border-radius: 14px 14px 0 0;
+    padding: 28px 28px 24px;
+  }
+  .seo-hero-top {
+    display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;
+  }
+  .logo-mark {
+    width: 48px; height: 48px; background: var(--gold);
+    border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; font-size: 20px; font-weight: 600;
+    color: var(--navy); flex-shrink: 0; font-family: 'IBM Plex Mono', monospace;
+  }
+  .seo-hero-text h1 {
+    font-size: 18px; font-weight: 600; color: #fff; line-height: 1.3;
+  }
+  .seo-hero-text p {
+    font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; line-height: 1.5;
+  }
+  .seo-hero-count {
+    margin-left: auto; text-align: right; flex-shrink: 0;
+  }
+  .seo-hero-count .big {
+    font-size: 36px; font-weight: 600; color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace; line-height: 1;
+  }
+  .seo-hero-count .lbl { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+
+  /* HEADLINE STATS STRIP */
+  .headline-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hs-stat {
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.04);
+  }
+  .hs-stat .v {
+    font-size: 30px; font-weight: 600; color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace; line-height: 1;
+  }
+  .hs-stat .v span { font-size: 18px; }
+  .hs-stat .l { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 5px; line-height: 1.4; }
+  .hs-stat .d { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+  /* ── TABS ── */
+  .tab-bar {
+    background: var(--navy-mid);
+    display: flex;
+    padding: 0 24px;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .tab-btn {
+    padding: 11px 20px;
+    font-size: 12px; font-weight: 500;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: rgba(255,255,255,0.45);
+    background: none; border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+    letter-spacing: 0.02em;
+  }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-btn:hover:not(.active) { color: rgba(255,255,255,0.75); }
+
+  /* ── BODY ── */
+  .dash-body {
+    padding: 22px 24px 28px;
+    background: var(--surface);
+    border-radius: 0 0 14px 14px;
+    border: 1px solid var(--border);
+    border-top: none;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── LAYOUT ── */
+  .section-label {
+    font-size: 10px; font-weight: 600; letter-spacing: .09em;
+    color: var(--navy); padding: 0 0 10px 10px;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin-bottom: 16px; }
+  .full { margin-bottom: 16px; }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 0.5px solid var(--border);
+    padding: 16px 18px;
+  }
+  .card-title {
+    font-size: 12px; font-weight: 600; color: var(--navy);
+    margin-bottom: 14px; letter-spacing: 0.01em;
+  }
+
+  /* METRIC CARDS */
+  .mcard {
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 0.5px solid var(--border);
+    padding: 14px 16px; text-align: center;
+  }
+  .mcard .v {
+    font-size: 32px; font-weight: 600; color: var(--navy);
+    font-family: 'IBM Plex Mono', monospace; line-height: 1.1;
+  }
+  .mcard .v sup { font-size: 18px; }
+  .mcard .l { font-size: 11px; color: var(--text-sec); margin-top: 4px; line-height: 1.4; }
+  .mcard .s { font-size: 10px; color: var(--navy-light); font-weight: 500; margin-top: 3px; }
+
+  /* BAR ROWS */
+  .br { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .br-lbl { font-size: 11px; color: var(--text-sec); min-width: 120px; }
+  .br-lbl-sm { font-size: 11px; color: var(--text-sec); min-width: 75px; }
+  .br-track { flex: 1; height: 12px; background: rgba(1,38,79,0.06); border-radius: 6px; overflow: hidden; }
+  .br-fill { height: 100%; border-radius: 6px; background: var(--navy); transition: width 0.6s ease; }
+  .br-fill-g { background: var(--gold-dark); }
+  .br-fill-m { background: #8CA9CC; }
+  .br-pct { font-size: 11px; color: var(--navy); font-weight: 500; min-width: 34px; text-align: right; font-family: 'IBM Plex Mono', monospace; }
+
+  /* LIKERT */
+  .lk-block { margin-bottom: 9px; }
+  .lk-q { font-size: 11px; color: var(--navy); margin-bottom: 4px; line-height: 1.4; }
+  .lk-bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; }
+  .lk-seg { height: 100%; }
+  .lk-legend { display: flex; gap: 16px; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+  .lk-li { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-sec); }
+  .lk-sw { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* COMPARE TABLE */
+  .cmp-table { width: 100%; font-size: 11px; border-collapse: collapse; }
+  .cmp-table th {
+    background: var(--navy); color: #fff; padding: 8px 12px;
+    text-align: left; font-weight: 500; font-size: 11px;
+  }
+  .cmp-table th:not(:first-child) { text-align: center; }
+  .cmp-table td { padding: 7px 12px; border-bottom: 0.5px solid var(--border); }
+  .cmp-table td:not(:first-child) { text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+  .cmp-table tr:last-child td { border-bottom: none; }
+  .cmp-table tr:hover td { background: rgba(1,38,79,0.02); }
+
+  /* BADGES */
+  .badge {
+    display: inline-flex; align-items: center; gap: 2px;
+    font-size: 10px; font-weight: 500; padding: 2px 8px;
+    border-radius: 12px; font-family: 'IBM Plex Mono', monospace;
+  }
+  .badge-up { background: #e6f5ec; color: #1a6b2a; }
+  .badge-dn { background: #fce8e8; color: #9b2222; }
+  .badge-neu { background: rgba(1,38,79,0.07); color: var(--navy); }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: var(--gold-bg);
+    border: 1px solid rgba(201,164,0,0.3);
+    border-left: 3px solid var(--gold-dark);
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 18px;
+    font-size: 11px; color: var(--navy); line-height: 1.6;
+  }
+  .insight-row { display: flex; gap: 16px; }
+  .insight-half { flex: 1; }
+  .insight-half strong { font-weight: 600; display: block; margin-bottom: 3px; }
+
+  /* RANK LIST */
+  .rank-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+  .rank-item:last-child { border-bottom: none; }
+  .rn { font-size: 11px; font-weight: 600; color: var(--gold-dark); min-width: 20px; font-family: 'IBM Plex Mono', monospace; }
+  .rs { font-size: 11px; color: var(--navy); flex: 1; }
+  .rv { font-size: 11px; color: var(--text-sec); font-family: 'IBM Plex Mono', monospace; }
+
+  /* FOOTER */
+  .foot {
+    text-align: center; font-size: 11px; color: var(--text-sec);
+    padding-top: 12px; margin-top: 4px;
+    border-top: 0.5px solid var(--border);
+    line-height: 1.6;
+  }
+  .foot a { color: var(--navy-light); text-decoration: none; }
+  .foot a:hover { text-decoration: underline; }
+
+  /* COMING SOON BOX */
+  .coming-soon {
+    background: rgba(1,38,79,0.04);
+    border: 1px dashed rgba(1,38,79,0.2);
+    border-radius: 10px; padding: 16px 18px;
+    margin-top: 16px;
+  }
+  .coming-soon h3 { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .coming-soon ul { list-style: none; padding: 0; }
+  .coming-soon li { font-size: 11px; color: var(--text-sec); padding: 3px 0; padding-left: 14px; position: relative; line-height: 1.5; }
+  .coming-soon li::before { content: '→'; position: absolute; left: 0; color: var(--gold-dark); font-weight: 500; }
+
+  @media (max-width: 680px) {
+    .headline-strip { grid-template-columns: repeat(2,1fr); }
+    .grid4 { grid-template-columns: repeat(2,1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+    .grid3 { grid-template-columns: 1fr; }
+    .insight-row { flex-direction: column; gap: 10px; }
+    .seo-hero-count { display: none; }
+    .tab-btn { padding: 10px 12px; font-size: 11px; }
+    body { padding: 12px 8px 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="outer">
+
+  <!-- SEO HERO / HEADER -->
+  <div class="seo-hero">
+    <div class="seo-hero-top">
+      <div class="logo-mark">CC</div>
+      <div class="seo-hero-text">
+        <h1>California Cadet Corps — Senior Outcomes Dashboard</h1>
+        <p>Class of 2024 &amp; 2025 · Leadership · College Readiness · Military Enlistment · Career Preparation<br>
+        Anonymous &amp; Confidential Survey Data · Updated Annually Every May · cacadets.org</p>
+      </div>
+      <div class="seo-hero-count">
+        <div class="big">233</div>
+        <div class="lbl">cadets surveyed<br>2024–2025</div>
+      </div>
+    </div>
+
+    <div class="headline-strip">
+      <div class="hs-stat">
+        <div class="v">65<span>%</span></div>
+        <div class="l">Accepted to college or university</div>
+        <div class="d">2024–2025 combined</div>
+      </div>
+      <div class="hs-stat">
+        <div class="v">19<span>%</span></div>
+        <div class="l">Enlisted in the military</div>
+        <div class="d">2024–2025 combined</div>
+      </div>
+      <div class="hs-stat">
+        <div class="v">80<span>%</span></div>
+        <div class="l">Agree CACC builds leadership</div>
+        <div class="d">avg across both years</div>
+      </div>
+      <div class="hs-stat">
+        <div class="v">46<span>%</span></div>
+        <div class="l">Secured employment post-graduation</div>
+        <div class="d">2024–2025 combined</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('all', this)">All data (2024–2025)</button>
+    <button class="tab-btn" onclick="switchTab('y2025', this)">2025 — 193 cadets</button>
+    <button class="tab-btn" onclick="switchTab('y2024', this)">2024 — 40 cadets</button>
+  </div>
+
+  <div class="dash-body">
+
+    <!-- ═══════════════ ALL DATA ═══════════════ -->
+    <div class="tab-panel active" id="tab-all">
+
+      <p class="section-label">Year-over-year comparison</p>
+      <div class="full card">
+        <div class="card-title">Key metrics — 2024 vs. 2025</div>
+        <table class="cmp-table">
+          <thead>
+            <tr><th>Metric</th><th>2024 (n=40)</th><th>2025 (n=193)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Total surveyed</td><td>40</td><td>193</td></tr>
+            <tr><td>College / university acceptance</td><td>75%</td><td>66%</td></tr>
+            <tr><td>Military enlistment rate</td><td>22.5%</td><td>17.1%</td></tr>
+            <tr><td>Scholarship (among college-bound)</td><td>25%</td><td>10.2%</td></tr>
+            <tr><td>Dual enrollment / college credit in HS</td><td>57.5%</td><td>36.3%</td></tr>
+            <tr><td>Employment secured post-graduation</td><td>66%</td><td>36.3%</td></tr>
+            <tr><td>NCO rank or higher at graduation</td><td>~60%</td><td>68%</td></tr>
+            <tr><td>Officer rank (C/2LT and above)</td><td>27.5%</td><td>16.7%</td></tr>
+            <tr><td>6+ years in CACC program</td><td>22.5%</td><td>49.8%</td></tr>
+            <tr><td>Leadership development (% agree)</td><td>95%</td><td>63%</td></tr>
+            <tr><td>Safe environment (% agree)</td><td>86%</td><td>~72%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight">
+        <div class="insight-row">
+          <div class="insight-half">
+            <strong>What got stronger</strong>
+            Participation grew 383% — from 40 to 193 cadets — giving CACC its most representative statewide picture to date. Long-term retention surged, with 49.8% of 2025 cadets reporting 6+ years in the program, up from 22.5% in 2024. NCO attainment also rose to 68%.
+          </div>
+          <div class="insight-half">
+            <strong>Context for percentage shifts</strong>
+            Most drops in 2025 reflect sample diversification, not program decline. As more schools with varied resources joined, averages naturally balanced across a wider population. Scholarship guidance and dual enrollment access are the priority areas for 2026 programming.
+          </div>
+        </div>
+      </div>
+
+      <p class="section-label">Combined pathways — 2024 + 2025</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Post-graduation pathways</div>
+          <div class="br"><div class="br-lbl">4-yr college / university</div><div class="br-track"><div class="br-fill" style="width:67%"></div></div><div class="br-pct">67%</div></div>
+          <div class="br"><div class="br-lbl">Community college</div><div class="br-track"><div class="br-fill" style="width:55%"></div></div><div class="br-pct">55%</div></div>
+          <div class="br"><div class="br-lbl">Military enlistment</div><div class="br-track"><div class="br-fill br-fill-g" style="width:19%"></div></div><div class="br-pct">19%</div></div>
+          <div class="br"><div class="br-lbl">Employment secured</div><div class="br-track"><div class="br-fill" style="width:46%"></div></div><div class="br-pct">46%</div></div>
+          <div class="br"><div class="br-lbl">College credit in HS</div><div class="br-track"><div class="br-fill br-fill-g" style="width:40%"></div></div><div class="br-pct">40%</div></div>
+          <div class="br"><div class="br-lbl">Trade / technical school</div><div class="br-track"><div class="br-fill br-fill-m" style="width:8%"></div></div><div class="br-pct">8%</div></div>
+          <div class="br"><div class="br-lbl">Military academy</div><div class="br-track"><div class="br-fill br-fill-m" style="width:4%"></div></div><div class="br-pct">4%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Military branches — combined enlisted</div>
+          <div class="br"><div class="br-lbl">Marines</div><div class="br-track"><div class="br-fill" style="width:40%"></div></div><div class="br-pct">38%</div></div>
+          <div class="br"><div class="br-lbl">Army</div><div class="br-track"><div class="br-fill" style="width:35%"></div></div><div class="br-pct">34%</div></div>
+          <div class="br"><div class="br-lbl">Navy</div><div class="br-track"><div class="br-fill br-fill-m" style="width:10%"></div></div><div class="br-pct">9%</div></div>
+          <div class="br"><div class="br-lbl">Air Force</div><div class="br-track"><div class="br-fill br-fill-m" style="width:8%"></div></div><div class="br-pct">7%</div></div>
+          <div class="br"><div class="br-lbl">Coast Guard</div><div class="br-track"><div class="br-fill br-fill-m" style="width:5%"></div></div><div class="br-pct">5%</div></div>
+          <div class="br"><div class="br-lbl">Space Force</div><div class="br-track"><div class="br-fill br-fill-m" style="width:2%"></div></div><div class="br-pct">2%</div></div>
+        </div>
+      </div>
+
+      <p class="section-label">Program perception — both years combined</p>
+      <div class="full card">
+        <div class="card-title">% of all 233 cadets agreeing with each statement</div>
+        <div class="lk-block"><div class="lk-q">CACC provides a safe learning environment</div><div class="lk-bar"><div class="lk-seg" style="width:75%;background:#01264F"></div><div class="lk-seg" style="width:16%;background:#B5D4F4"></div><div class="lk-seg" style="width:9%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC teaches cadets to be better citizens</div><div class="lk-bar"><div class="lk-seg" style="width:73%;background:#01264F"></div><div class="lk-seg" style="width:18%;background:#B5D4F4"></div><div class="lk-seg" style="width:9%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC has high expectations of all cadets</div><div class="lk-bar"><div class="lk-seg" style="width:72%;background:#01264F"></div><div class="lk-seg" style="width:19%;background:#B5D4F4"></div><div class="lk-seg" style="width:9%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC program helped develop my leadership skills</div><div class="lk-bar"><div class="lk-seg" style="width:70%;background:#01264F"></div><div class="lk-seg" style="width:20%;background:#B5D4F4"></div><div class="lk-seg" style="width:10%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC prepared me for next steps post-graduation</div><div class="lk-bar"><div class="lk-seg" style="width:65%;background:#01264F"></div><div class="lk-seg" style="width:23%;background:#B5D4F4"></div><div class="lk-seg" style="width:12%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">Instructors use various methods to measure learning</div><div class="lk-bar"><div class="lk-seg" style="width:64%;background:#01264F"></div><div class="lk-seg" style="width:24%;background:#B5D4F4"></div><div class="lk-seg" style="width:12%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC positively influenced my academic performance</div><div class="lk-bar"><div class="lk-seg" style="width:57%;background:#01264F"></div><div class="lk-seg" style="width:28%;background:#B5D4F4"></div><div class="lk-seg" style="width:15%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">Participation in CACC influenced my career choice</div><div class="lk-bar"><div class="lk-seg" style="width:56%;background:#01264F"></div><div class="lk-seg" style="width:28%;background:#B5D4F4"></div><div class="lk-seg" style="width:16%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC helped me be motivated to have good attendance</div><div class="lk-bar"><div class="lk-seg" style="width:55%;background:#01264F"></div><div class="lk-seg" style="width:29%;background:#B5D4F4"></div><div class="lk-seg" style="width:16%;background:#D3D1C7"></div></div></div>
+        <div class="lk-legend">
+          <div class="lk-li"><div class="lk-sw" style="background:#01264F"></div>Agree</div>
+          <div class="lk-li"><div class="lk-sw" style="background:#B5D4F4"></div>Neutral</div>
+          <div class="lk-li"><div class="lk-sw" style="background:#D3D1C7"></div>Disagree</div>
+        </div>
+      </div>
+
+      <!-- Coming 2026 -->
+      <div class="coming-soon">
+        <h3>📋 2026 focus area — Career Pathways &amp; Certification Impact</h3>
+        <ul>
+          <li>Did you earn any certifications during your time in CACC?</li>
+          <li>Did any certifications help you get a job after graduation?</li>
+          <li>Were any certifications used on college applications or resumes?</li>
+          <li>Did any certifications support your military enlistment process?</li>
+          <li>What industry-recognized certifications should CACC consider offering?</li>
+        </ul>
+      </div>
+
+    </div><!-- /all -->
+
+    <!-- ═══════════════ 2025 ═══════════════ -->
+    <div class="tab-panel" id="tab-y2025">
+
+      <div class="grid4">
+        <div class="mcard"><div class="v">66<sup>%</sup></div><div class="l">College acceptance</div><div class="s">127 of 193</div></div>
+        <div class="mcard"><div class="v">17<sup>%</sup></div><div class="l">Military enlistment</div><div class="s">33 of 193</div></div>
+        <div class="mcard"><div class="v">10<sup>%</sup></div><div class="l">Scholarship rate</div><div class="s">of college-bound cadets</div></div>
+        <div class="mcard"><div class="v">36<sup>%</sup></div><div class="l">Employment secured</div><div class="s">70 of 193</div></div>
+      </div>
+
+      <p class="section-label">Demographics — 2025</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Gender identity</div>
+          <div class="br"><div class="br-lbl">Man</div><div class="br-track"><div class="br-fill" style="width:58.5%"></div></div><div class="br-pct">58.5%</div></div>
+          <div class="br"><div class="br-lbl">Woman</div><div class="br-track"><div class="br-fill br-fill-g" style="width:40.9%"></div></div><div class="br-pct">40.9%</div></div>
+          <div class="br"><div class="br-lbl">Prefer not to say</div><div class="br-track"><div class="br-fill br-fill-m" style="width:1%"></div></div><div class="br-pct">0.5%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Years in the program</div>
+          <div class="br"><div class="br-lbl-sm">1 year</div><div class="br-track"><div class="br-fill br-fill-m" style="width:2.6%"></div></div><div class="br-pct">2.6%</div></div>
+          <div class="br"><div class="br-lbl-sm">2 years</div><div class="br-track"><div class="br-fill" style="width:22.3%"></div></div><div class="br-pct">22.3%</div></div>
+          <div class="br"><div class="br-lbl-sm">3 years</div><div class="br-track"><div class="br-fill br-fill-m" style="width:4.7%"></div></div><div class="br-pct">4.7%</div></div>
+          <div class="br"><div class="br-lbl-sm">4 years</div><div class="br-track"><div class="br-fill" style="width:15%"></div></div><div class="br-pct">15.0%</div></div>
+          <div class="br"><div class="br-lbl-sm">5 years</div><div class="br-track"><div class="br-fill br-fill-m" style="width:5.7%"></div></div><div class="br-pct">5.7%</div></div>
+          <div class="br"><div class="br-lbl-sm">6 years</div><div class="br-track"><div class="br-fill br-fill-g" style="width:30.1%"></div></div><div class="br-pct">30.1%</div></div>
+          <div class="br"><div class="br-lbl-sm">7 years</div><div class="br-track"><div class="br-fill br-fill-g" style="width:13%"></div></div><div class="br-pct">13.0%</div></div>
+          <div class="br"><div class="br-lbl-sm">8 years</div><div class="br-track"><div class="br-fill br-fill-g" style="width:6.7%"></div></div><div class="br-pct">6.7%</div></div>
+        </div>
+      </div>
+
+      <p class="section-label">Pathways &amp; military — 2025</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Post-graduation pathways</div>
+          <div class="br"><div class="br-lbl">College / university</div><div class="br-track"><div class="br-fill" style="width:66%"></div></div><div class="br-pct">66%</div></div>
+          <div class="br"><div class="br-lbl">Community college</div><div class="br-track"><div class="br-fill" style="width:54%"></div></div><div class="br-pct">54%</div></div>
+          <div class="br"><div class="br-lbl">Employment secured</div><div class="br-track"><div class="br-fill br-fill-g" style="width:36%"></div></div><div class="br-pct">36%</div></div>
+          <div class="br"><div class="br-lbl">Dual enrollment</div><div class="br-track"><div class="br-fill br-fill-g" style="width:36.3%"></div></div><div class="br-pct">36.3%</div></div>
+          <div class="br"><div class="br-lbl">Trade / tech school</div><div class="br-track"><div class="br-fill br-fill-m" style="width:8%"></div></div><div class="br-pct">8%</div></div>
+          <div class="br"><div class="br-lbl">Military academy</div><div class="br-track"><div class="br-fill br-fill-m" style="width:3%"></div></div><div class="br-pct">3%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Military branches enlisted — 2025 (n=33)</div>
+          <div class="br"><div class="br-lbl">Marines</div><div class="br-track"><div class="br-fill" style="width:51.5%"></div></div><div class="br-pct">17</div></div>
+          <div class="br"><div class="br-lbl">Army</div><div class="br-track"><div class="br-fill br-fill-g" style="width:27%"></div></div><div class="br-pct">9</div></div>
+          <div class="br"><div class="br-lbl">Navy</div><div class="br-track"><div class="br-fill br-fill-m" style="width:9%"></div></div><div class="br-pct">3</div></div>
+          <div class="br"><div class="br-lbl">Air Force</div><div class="br-track"><div class="br-fill br-fill-m" style="width:6%"></div></div><div class="br-pct">2</div></div>
+          <div class="br"><div class="br-lbl">Space Force</div><div class="br-track"><div class="br-fill br-fill-m" style="width:3%"></div></div><div class="br-pct">1</div></div>
+          <div class="br"><div class="br-lbl">Coast Guard</div><div class="br-track"><div class="br-fill br-fill-m" style="width:3%"></div></div><div class="br-pct">1</div></div>
+        </div>
+      </div>
+
+      <p class="section-label">Program perception — 2025</p>
+      <div class="full card">
+        <div class="card-title">Cadet agreement — 2025 (n=193)</div>
+        <div class="lk-block"><div class="lk-q">CACC provides a safe learning environment</div><div class="lk-bar"><div class="lk-seg" style="width:72%;background:#01264F"></div><div class="lk-seg" style="width:18%;background:#B5D4F4"></div><div class="lk-seg" style="width:10%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC teaches cadets to be better citizens</div><div class="lk-bar"><div class="lk-seg" style="width:70%;background:#01264F"></div><div class="lk-seg" style="width:20%;background:#B5D4F4"></div><div class="lk-seg" style="width:10%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC has high expectations of all cadets</div><div class="lk-bar"><div class="lk-seg" style="width:68%;background:#01264F"></div><div class="lk-seg" style="width:22%;background:#B5D4F4"></div><div class="lk-seg" style="width:10%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC program helped develop my leadership skills</div><div class="lk-bar"><div class="lk-seg" style="width:63%;background:#01264F"></div><div class="lk-seg" style="width:25%;background:#B5D4F4"></div><div class="lk-seg" style="width:12%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC prepared me for post-graduation</div><div class="lk-bar"><div class="lk-seg" style="width:60%;background:#01264F"></div><div class="lk-seg" style="width:27%;background:#B5D4F4"></div><div class="lk-seg" style="width:13%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">Participation in CACC influenced my career choice</div><div class="lk-bar"><div class="lk-seg" style="width:51%;background:#01264F"></div><div class="lk-seg" style="width:31%;background:#B5D4F4"></div><div class="lk-seg" style="width:18%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC positively influenced my academic performance</div><div class="lk-bar"><div class="lk-seg" style="width:49%;background:#01264F"></div><div class="lk-seg" style="width:33%;background:#B5D4F4"></div><div class="lk-seg" style="width:18%;background:#D3D1C7"></div></div></div>
+        <div class="lk-legend">
+          <div class="lk-li"><div class="lk-sw" style="background:#01264F"></div>Agree</div>
+          <div class="lk-li"><div class="lk-sw" style="background:#B5D4F4"></div>Neutral</div>
+          <div class="lk-li"><div class="lk-sw" style="background:#D3D1C7"></div>Disagree</div>
+        </div>
+      </div>
+
+      <p class="section-label">Graduating rank — 2025</p>
+      <div class="full card">
+        <div class="card-title">Final rank distribution (n=193)</div>
+        <div class="grid2" style="margin-bottom:0">
+          <div>
+            <div class="br"><div class="br-lbl">C/SGT (sergeant)</div><div class="br-track"><div class="br-fill" style="width:31.6%"></div></div><div class="br-pct">31.6%</div></div>
+            <div class="br"><div class="br-lbl">C/CPL (corporal)</div><div class="br-track"><div class="br-fill" style="width:13.5%"></div></div><div class="br-pct">13.5%</div></div>
+            <div class="br"><div class="br-lbl">C/SSG (staff SGT)</div><div class="br-track"><div class="br-fill" style="width:13%"></div></div><div class="br-pct">13.0%</div></div>
+            <div class="br"><div class="br-lbl">C/SFC (SFC)</div><div class="br-track"><div class="br-fill" style="width:11.4%"></div></div><div class="br-pct">11.4%</div></div>
+            <div class="br"><div class="br-lbl">C/CPT (captain)</div><div class="br-track"><div class="br-fill br-fill-g" style="width:6.2%"></div></div><div class="br-pct">6.2%</div></div>
+          </div>
+          <div>
+            <div class="br"><div class="br-lbl">C/MSG (MSG)</div><div class="br-track"><div class="br-fill" style="width:5.7%"></div></div><div class="br-pct">5.7%</div></div>
+            <div class="br"><div class="br-lbl">C/2LT (2nd lt)</div><div class="br-track"><div class="br-fill br-fill-g" style="width:4.1%"></div></div><div class="br-pct">4.1%</div></div>
+            <div class="br"><div class="br-lbl">C/MAJ (major)</div><div class="br-track"><div class="br-fill br-fill-g" style="width:2.1%"></div></div><div class="br-pct">2.1%</div></div>
+            <div class="br"><div class="br-lbl">C/LTC (lt colonel)</div><div class="br-track"><div class="br-fill br-fill-g" style="width:1.6%"></div></div><div class="br-pct">1.6%</div></div>
+            <div class="br"><div class="br-lbl">C/COL (colonel)</div><div class="br-track"><div class="br-fill br-fill-g" style="width:1%"></div></div><div class="br-pct">1.0%</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /2025 -->
+
+    <!-- ═══════════════ 2024 ═══════════════ -->
+    <div class="tab-panel" id="tab-y2024">
+
+      <div class="grid4">
+        <div class="mcard"><div class="v">75<sup>%</sup></div><div class="l">College acceptance</div><div class="s">30 of 40</div></div>
+        <div class="mcard"><div class="v">22<sup>%</sup></div><div class="l">Military enlistment</div><div class="s">9 of 40</div></div>
+        <div class="mcard"><div class="v">25<sup>%</sup></div><div class="l">Scholarship rate</div><div class="s">of college-bound cadets</div></div>
+        <div class="mcard"><div class="v">66<sup>%</sup></div><div class="l">Employment secured</div><div class="s">~26 of 40</div></div>
+      </div>
+
+      <p class="section-label">Demographics — 2024</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Gender identity</div>
+          <div class="br"><div class="br-lbl">Woman</div><div class="br-track"><div class="br-fill br-fill-g" style="width:52.5%"></div></div><div class="br-pct">52.5%</div></div>
+          <div class="br"><div class="br-lbl">Man</div><div class="br-track"><div class="br-fill" style="width:45%"></div></div><div class="br-pct">45.0%</div></div>
+          <div class="br"><div class="br-lbl">Non-binary</div><div class="br-track"><div class="br-fill br-fill-m" style="width:2.5%"></div></div><div class="br-pct">2.5%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Years in the program</div>
+          <div class="br"><div class="br-lbl-sm">1 year</div><div class="br-track"><div class="br-fill br-fill-m" style="width:15%"></div></div><div class="br-pct">15.0%</div></div>
+          <div class="br"><div class="br-lbl-sm">2 years</div><div class="br-track"><div class="br-fill" style="width:17.5%"></div></div><div class="br-pct">17.5%</div></div>
+          <div class="br"><div class="br-lbl-sm">3 years</div><div class="br-track"><div class="br-fill" style="width:17.5%"></div></div><div class="br-pct">17.5%</div></div>
+          <div class="br"><div class="br-lbl-sm">4 years</div><div class="br-track"><div class="br-fill br-fill-g" style="width:22.5%"></div></div><div class="br-pct">22.5%</div></div>
+          <div class="br"><div class="br-lbl-sm">5 years</div><div class="br-track"><div class="br-fill br-fill-m" style="width:2.5%"></div></div><div class="br-pct">2.5%</div></div>
+          <div class="br"><div class="br-lbl-sm">6 years</div><div class="br-track"><div class="br-fill br-fill-g" style="width:17.5%"></div></div><div class="br-pct">17.5%</div></div>
+          <div class="br"><div class="br-lbl-sm">7 years</div><div class="br-track"><div class="br-fill br-fill-g" style="width:5%"></div></div><div class="br-pct">5.0%</div></div>
+        </div>
+      </div>
+
+      <p class="section-label">Pathways &amp; military — 2024</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Post-graduation pathways</div>
+          <div class="br"><div class="br-lbl">College / university</div><div class="br-track"><div class="br-fill" style="width:75%"></div></div><div class="br-pct">75%</div></div>
+          <div class="br"><div class="br-lbl">Community college</div><div class="br-track"><div class="br-fill" style="width:61%"></div></div><div class="br-pct">61%</div></div>
+          <div class="br"><div class="br-lbl">Employment secured</div><div class="br-track"><div class="br-fill br-fill-g" style="width:66%"></div></div><div class="br-pct">66%</div></div>
+          <div class="br"><div class="br-lbl">Dual enrollment</div><div class="br-track"><div class="br-fill br-fill-g" style="width:57.5%"></div></div><div class="br-pct">57.5%</div></div>
+          <div class="br"><div class="br-lbl">Trade / tech school</div><div class="br-track"><div class="br-fill br-fill-m" style="width:7%"></div></div><div class="br-pct">7%</div></div>
+          <div class="br"><div class="br-lbl">Military academy</div><div class="br-track"><div class="br-fill br-fill-m" style="width:5%"></div></div><div class="br-pct">5%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Military branches enlisted — 2024 (n=9)</div>
+          <div class="br"><div class="br-lbl">Army</div><div class="br-track"><div class="br-fill" style="width:66%"></div></div><div class="br-pct">6</div></div>
+          <div class="br"><div class="br-lbl">Navy</div><div class="br-track"><div class="br-fill br-fill-m" style="width:11%"></div></div><div class="br-pct">1</div></div>
+          <div class="br"><div class="br-lbl">Air Force</div><div class="br-track"><div class="br-fill br-fill-m" style="width:11%"></div></div><div class="br-pct">1</div></div>
+          <div class="br"><div class="br-lbl">Coast Guard</div><div class="br-track"><div class="br-fill br-fill-m" style="width:11%"></div></div><div class="br-pct">1</div></div>
+        </div>
+      </div>
+
+      <p class="section-label">Program perception — 2024</p>
+      <div class="full card">
+        <div class="card-title">Cadet agreement — 2024 (n=40)</div>
+        <div class="lk-block"><div class="lk-q">CACC program helped develop my leadership skills</div><div class="lk-bar"><div class="lk-seg" style="width:95%;background:#01264F"></div><div class="lk-seg" style="width:4%;background:#B5D4F4"></div><div class="lk-seg" style="width:1%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC provides a safe learning environment</div><div class="lk-bar"><div class="lk-seg" style="width:86%;background:#01264F"></div><div class="lk-seg" style="width:9%;background:#B5D4F4"></div><div class="lk-seg" style="width:5%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC teaches cadets to be better citizens</div><div class="lk-bar"><div class="lk-seg" style="width:84%;background:#01264F"></div><div class="lk-seg" style="width:10%;background:#B5D4F4"></div><div class="lk-seg" style="width:6%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC has high expectations of all cadets</div><div class="lk-bar"><div class="lk-seg" style="width:80%;background:#01264F"></div><div class="lk-seg" style="width:13%;background:#B5D4F4"></div><div class="lk-seg" style="width:7%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC prepared me for next steps post-graduation</div><div class="lk-bar"><div class="lk-seg" style="width:75%;background:#01264F"></div><div class="lk-seg" style="width:16%;background:#B5D4F4"></div><div class="lk-seg" style="width:9%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">CACC positively influenced my academic performance</div><div class="lk-bar"><div class="lk-seg" style="width:73%;background:#01264F"></div><div class="lk-seg" style="width:16%;background:#B5D4F4"></div><div class="lk-seg" style="width:11%;background:#D3D1C7"></div></div></div>
+        <div class="lk-block" style="margin-top:8px"><div class="lk-q">Participation in CACC influenced my career choice</div><div class="lk-bar"><div class="lk-seg" style="width:70%;background:#01264F"></div><div class="lk-seg" style="width:18%;background:#B5D4F4"></div><div class="lk-seg" style="width:12%;background:#D3D1C7"></div></div></div>
+        <div class="lk-legend">
+          <div class="lk-li"><div class="lk-sw" style="background:#01264F"></div>Agree</div>
+          <div class="lk-li"><div class="lk-sw" style="background:#B5D4F4"></div>Neutral</div>
+          <div class="lk-li"><div class="lk-sw" style="background:#D3D1C7"></div>Disagree</div>
+        </div>
+      </div>
+
+      <p class="section-label">Top participating schools — 2024</p>
+      <div class="full card">
+        <div class="card-title">Schools represented in 2024 survey</div>
+        <div class="rank-item"><div class="rn">1</div><div class="rs">Greenfield High School</div><div class="rv">8 cadets</div></div>
+        <div class="rank-item"><div class="rn">2</div><div class="rs">Mt. Whitney High School</div><div class="rv">7 cadets</div></div>
+        <div class="rank-item"><div class="rn">3</div><div class="rs">San Gorgonio High School</div><div class="rv">5 cadets</div></div>
+        <div class="rank-item"><div class="rn">4</div><div class="rs">Cajon High School</div><div class="rv">4 cadets</div></div>
+        <div class="rank-item"><div class="rn">5</div><div class="rs">Riverside Preparatory High School</div><div class="rv">4 cadets</div></div>
+        <div class="rank-item"><div class="rn">6</div><div class="rs">Rosamond High School</div><div class="rv">3 cadets</div></div>
+        <div class="rank-item"><div class="rn">7</div><div class="rs">Southwest High School</div><div class="rv">3 cadets</div></div>
+        <div class="rank-item"><div class="rn">8</div><div class="rs">Porterville Military Academy</div><div class="rv">2 cadets</div></div>
+      </div>
+
+    </div><!-- /2024 -->
+
+    <div class="foot">
+      California Cadet Corps · Senior Outcomes Survey · Class of 2024–2025 · All data anonymous &amp; confidential<br>
+      <a href="https://www.cacadets.org" target="_blank">www.cacadets.org</a> · Updated annually every May · Contact: <a href="mailto:zak.lara@cacadets.org">zak.lara@cacadets.org</a>
+    </div>
+
+  </div><!-- /body -->
+</div><!-- /outer -->
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const map = { all: 'tab-all', y2025: 'tab-y2025', y2024: 'tab-y2024' };
+  document.getElementById(map[id]).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
